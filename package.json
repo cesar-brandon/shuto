@@ -24,6 +24,7 @@
     "@tamagui/lucide-icons": "^1.103.0",
     "expo": "~51.0.21",
     "expo-constants": "~16.0.2",
+    "expo-dev-client": "~4.0.21",
     "expo-font": "~12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.18",
@@ -41,7 +42,8 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "^15.4.0",
     "react-native-web": "~0.19.10",
-    "tamagui": "^1.103.0"
+    "tamagui": "^1.103.0",
+    "expo-camera": "~15.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

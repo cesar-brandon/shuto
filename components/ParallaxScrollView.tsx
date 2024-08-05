@@ -6,8 +6,10 @@ import Animated, {
   useAnimatedStyle,
   useScrollViewOffset,
 } from "react-native-reanimated";
-
 import { ThemedView } from "@/components/ThemedView";
+import { Button } from "tamagui";
+import { Focus } from "@tamagui/lucide-icons";
+import { Link } from "expo-router";
 
 const HEADER_HEIGHT = 250;
 
@@ -60,6 +62,19 @@ export default function ParallaxScrollView({
         </Animated.View>
         <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
+      <Link href="/shot" asChild>
+        <Button
+          width={60}
+          height={60}
+          position="absolute"
+          left={"50%"}
+          transform={[{ translateX: -30 }]}
+          bottom={20}
+          borderRadius="$12"
+          backgroundColor="$accentColor"
+          icon={<Focus size="$4" />}
+        />
+      </Link>
     </ThemedView>
   );
 }

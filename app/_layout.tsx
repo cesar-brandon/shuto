@@ -11,6 +11,7 @@ import "react-native-reanimated";
 import { TamaguiProvider } from "tamagui";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import appConfig from "@/tamagui.config";
+import "expo-dev-client";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -42,6 +43,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="home" options={{ headerShown: false }} />
+          <Stack.Screen name="shot" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>
