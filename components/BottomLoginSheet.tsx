@@ -59,6 +59,7 @@ const BottomLoginSheet = () => {
             paddingVertical="$3"
             alignItems="center"
             gap="$6"
+            overflow="hidden"
           >
             <View
               width={60}
@@ -73,6 +74,7 @@ const BottomLoginSheet = () => {
                 {userInfo.username &&
                   userInfo.username
                     .split(" ")
+                    .slice(0, 2)
                     .map((word) => word[0].toUpperCase())
                     .join("")}
               </Text>

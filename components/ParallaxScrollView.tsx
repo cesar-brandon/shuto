@@ -1,5 +1,4 @@
-import type { PropsWithChildren, ReactElement } from "react";
-import { StyleSheet, useColorScheme } from "react-native";
+import { StyleSheet } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -7,23 +6,26 @@ import Animated, {
   useScrollViewOffset,
 } from "react-native-reanimated";
 import { ThemedView } from "@/components/ThemedView";
-import { Button } from "tamagui";
-import { Focus } from "@tamagui/lucide-icons";
+import { Button, H4, Image, View, useTheme } from "tamagui";
+import { Sprout } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
+import { HelloWave } from "./HelloWave";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HEADER_HEIGHT = 250;
 
-type Props = PropsWithChildren<{
-  headerImage: ReactElement;
-  headerBackgroundColor: { dark: string; light: string };
-}>;
+type UserInfo = {
+  username: string;
+};
 
 export default function ParallaxScrollView({
   children,
-  headerImage,
-  headerBackgroundColor,
-}: Props) {
-  const colorScheme = useColorScheme() ?? "light";
+}: {
+  children: React.ReactNode;
+}) {
+  const theme = useTheme();
+  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
 
@@ -48,19 +50,63 @@ export default function ParallaxScrollView({
     };
   });
 
+  const getUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem("@user");
+      if (user) {
+        setUserInfo(JSON.parse(user));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
-    <ThemedView style={styles.container}>
+    <View flex={1}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <Animated.View
           style={[
             styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
+            {
+              backgroundColor: theme.accentColor.val,
+            },
             headerAnimatedStyle,
           ]}
         >
-          {headerImage}
+          {/* <Image */}
+          {/*   source={{ */}
+          {/*     uri: require("@/assets/images/header-image.jpg"), */}
+          {/*   }} */}
+          {/*   style={styles.headerImage} */}
+          {/* /> */}
+          <View
+            position="absolute"
+            top={70}
+            left={20}
+            zIndex={2}
+            flex={1}
+            flexDirection="row"
+          >
+            <H4 color="$color3">Hola,</H4>
+            <H4 color="$color1" style={{ fontFamily: "Cursive" }}>
+              {userInfo.username}
+            </H4>
+          </View>
         </Animated.View>
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        <ThemedView
+          style={[
+            styles.content,
+            {
+              backgroundColor: theme.color2.val,
+            },
+          ]}
+        >
+          {children}
+        </ThemedView>
       </Animated.ScrollView>
       <Link href="/shot" asChild>
         <Button
@@ -70,12 +116,11 @@ export default function ParallaxScrollView({
           left={"50%"}
           transform={[{ translateX: -30 }]}
           bottom={20}
-          borderRadius="$12"
           backgroundColor="$accentColor"
-          icon={<Focus size="$4" />}
+          icon={<Sprout color="$color2" size="$4" />}
         />
       </Link>
-    </ThemedView>
+    </View>
   );
 }
 
@@ -87,12 +132,17 @@ const styles = StyleSheet.create({
     height: 250,
     overflow: "hidden",
   },
+  headerImage: {
+    height: "100%",
+    width: "100%",
+  },
   content: {
     flex: 1,
-    padding: 32,
     gap: 16,
+    padding: 20,
     overflow: "hidden",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    marginTop: -80,
   },
 });
