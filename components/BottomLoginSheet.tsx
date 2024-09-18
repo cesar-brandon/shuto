@@ -13,6 +13,8 @@ const BottomLoginSheet = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonBackground, setButtonBackground] = useState("$color2");
+
   const { bottom } = useSafeAreaInsets();
 
   const router = useRouter();
@@ -30,6 +32,12 @@ const BottomLoginSheet = () => {
 
   useEffect(() => {
     getUser();
+
+    setInterval(() => {
+      setButtonBackground((prev) =>
+        prev === "$color2" ? "$color3" : "$color2",
+      );
+    }, 1200);
   }, []);
 
   const onSubmit = async () => {
@@ -54,12 +62,16 @@ const BottomLoginSheet = () => {
             borderRadius="$6"
             borderWidth={1}
             borderColor="$color6"
-            backgroundColor="$color2"
+            backgroundColor={buttonBackground}
             paddingHorizontal="$6"
             paddingVertical="$3"
             alignItems="center"
             gap="$6"
             overflow="hidden"
+            pressStyle={{ scale: 1.05 }}
+            animation={{
+              backgroundColor: "lazy",
+            }}
           >
             <View
               width={60}

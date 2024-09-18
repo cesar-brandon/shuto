@@ -1,35 +1,31 @@
-import { Pencil, Trash } from "@tamagui/lucide-icons";
+import { Eye, Trash } from "@tamagui/lucide-icons";
+import React from "react";
 import {
-  Adapt,
   Button,
   Popover,
   PopoverArrow,
   PopoverContent,
   PopoverTrigger,
+  YStack,
 } from "tamagui";
 
-export function PhotoOptions() {
+export function PhotoOptions({
+  children,
+  deleteItem,
+}: {
+  children: React.ReactNode;
+
+  deleteItem: () => void;
+}) {
   return (
-    <Popover size="$5" placement="bottom" allowFlip>
-      <PopoverTrigger asChild>
-        <Button width={10} icon={<Pencil size="$1" />} />
+    <Popover size="$3" placement="top" allowFlip>
+      <PopoverTrigger asChild opacity="unset">
+        {children}
       </PopoverTrigger>
-      <Adapt when="sm" platform="touch">
-        <Popover.Sheet dismissOnSnapToBottom>
-          <Popover.Sheet.Frame padding="$4">
-            <Adapt.Contents />
-          </Popover.Sheet.Frame>
-          <Popover.Sheet.Overlay
-            animation="lazy"
-            enterStyle={{ opacity: 0 }}
-            exitStyle={{ opacity: 0 }}
-          />
-        </Popover.Sheet>
-      </Adapt>
       <PopoverContent
-        height={50}
-        borderWidth={1}
+        borderWidth={0}
         borderColor="$borderColor"
+        backgroundColor="$color3"
         enterStyle={{ y: -10, opacity: 0 }}
         exitStyle={{ y: -10, opacity: 0 }}
         elevate
@@ -41,16 +37,22 @@ export function PhotoOptions() {
             },
           },
         ]}
+        top="$18"
       >
-        <PopoverArrow borderWidth={1} borderColor="$borderColor" />
-        <Button
-          alignSelf="center"
-          color="$color1"
-          backgroundColor="$color11"
-          icon={<Trash size="$1" />}
-        >
-          Eliminar
-        </Button>
+        <PopoverArrow size="$4" backgroundColor="$color3" />
+        <YStack gap="$2">
+          <Button alignSelf="center" icon={<Eye size="$1" />} width="$11">
+            Observar
+          </Button>
+          <Button
+            onPress={deleteItem}
+            alignSelf="center"
+            icon={<Trash size="$1" />}
+            themeInverse
+          >
+            Eliminar
+          </Button>
+        </YStack>
       </PopoverContent>
     </Popover>
   );

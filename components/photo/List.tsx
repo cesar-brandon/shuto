@@ -1,7 +1,9 @@
 import { XStack } from "tamagui";
 import { PhotoCard } from "./Card";
+import { useState } from "react";
+import { PhotoOptions } from "./Options";
 
-const list = [
+const photos = [
   {
     id: 1,
     title: "Sony A7IV",
@@ -48,10 +50,26 @@ const list = [
 
 //NOTE: intentar: $sm={{ flexDirection: "column" }}
 export function PhotoList() {
+  const [list, setList] = useState(photos);
+
+  const deleteItem = (id: number) => {
+    setList(list.filter((item) => item.id !== id));
+  };
+
   return (
-    <XStack flex={1} flexWrap="wrap" gap="$4" justifyContent="center">
+    <XStack
+      flex={1}
+      flexWrap="wrap"
+      gap="$4"
+      justifyContent="center"
+      marginBottom="$12"
+    >
       {list.map((item, i) => (
-        <PhotoCard key={i} item={item} />
+        <PhotoCard
+          key={item.id}
+          item={item}
+          deleteItem={() => deleteItem(item.id)}
+        />
       ))}
     </XStack>
   );

@@ -9,7 +9,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button, H4, Image, View, useTheme } from "tamagui";
 import { Sprout } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
-import { HelloWave } from "./HelloWave";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -66,7 +65,7 @@ export default function ParallaxScrollView({
   }, []);
 
   return (
-    <View flex={1}>
+    <View flex={1} backgroundColor="$color2">
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <Animated.View
           style={[
@@ -77,12 +76,12 @@ export default function ParallaxScrollView({
             headerAnimatedStyle,
           ]}
         >
-          {/* <Image */}
-          {/*   source={{ */}
-          {/*     uri: require("@/assets/images/header-image.jpg"), */}
-          {/*   }} */}
-          {/*   style={styles.headerImage} */}
-          {/* /> */}
+          <Image
+            source={{
+              uri: require("@/assets/images/header-image.jpg"),
+            }}
+            style={styles.headerImage}
+          />
           <View
             position="absolute"
             top={70}
@@ -92,8 +91,8 @@ export default function ParallaxScrollView({
             flexDirection="row"
           >
             <H4 color="$color3">Hola,</H4>
-            <H4 color="$color1" style={{ fontFamily: "Cursive" }}>
-              {userInfo.username}
+            <H4 color="$color1" fontStyle="italic">
+              {userInfo.username}🌱
             </H4>
           </View>
         </Animated.View>
