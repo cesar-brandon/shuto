@@ -1,60 +1,39 @@
 import { XStack } from "tamagui";
-import { PhotoCard } from "./Card";
-import { useState } from "react";
-import { PhotoOptions } from "./Options";
-
-const photos = [
-  {
-    id: 1,
-    title: "Sony A7IV",
-    image:
-      "https://i.pinimg.com/564x/da/ce/68/dace684a8149f8e913960e5e8706dae9.jpg",
-  },
-  {
-    id: 2,
-    title: "Canon EOS R5",
-    image:
-      "https://i.pinimg.com/564x/cc/00/06/cc00066f59a52e8841b23a322d2b35a7.jpg",
-  },
-  {
-    id: 3,
-    title: "Nikon Z7",
-    image:
-      "https://i.pinimg.com/564x/81/0e/1c/810e1cf2974f9f38ec67e4feb7fa08af.jpg",
-  },
-  {
-    id: 4,
-    title: "Fujifilm X-T4",
-    image:
-      "https://i.pinimg.com/564x/58/e4/01/58e401f3573ef4ae85d7a3445a9b259b.jpg",
-  },
-  {
-    id: 5,
-    title: "Panasonic Lumix S5",
-    image:
-      "https://i.pinimg.com/736x/bf/5f/91/bf5f91a7e5e57fe0860835869bd22fd9.jpg",
-  },
-  {
-    id: 6,
-    title: "Leica SL2",
-    image:
-      "https://i.pinimg.com/564x/6a/02/9c/6a029cc5c0ce5b38c2a01ab5392fa6ec.jpg",
-  },
-  {
-    id: 7,
-    title: "Olympus OM-D E-M1 Mark III",
-    image:
-      "https://i.pinimg.com/564x/ff/62/e7/ff62e775a6118bd8441a399615a508eb.jpg",
-  },
-];
+import { PhotoCard, PhotoCardSkeleton } from "./Card";
+import { useEffect, useState } from "react";
+import { Photo } from "@/lib/types/photo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //NOTE: intentar: $sm={{ flexDirection: "column" }}
 export function PhotoList() {
-  const [list, setList] = useState(photos);
+  const [list, setList] = useState<Photo[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
-  const deleteItem = (id: number) => {
+  const deleteItem = (id: string) => {
     setList(list.filter((item) => item.id !== id));
+    AsyncStorage.setItem(
+      "@images",
+      JSON.stringify(list.filter((item) => item.id !== id)),
+    );
   };
+
+  const getImages = async () => {
+    setIsPending(true);
+    try {
+      const images = await AsyncStorage.getItem("@images");
+      if (images) {
+        setList(JSON.parse(images));
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  useEffect(() => {
+    getImages();
+  }, [AsyncStorage.setItem]);
 
   return (
     <XStack
@@ -64,13 +43,21 @@ export function PhotoList() {
       justifyContent="center"
       marginBottom="$12"
     >
-      {list.map((item, i) => (
-        <PhotoCard
-          key={item.id}
-          item={item}
-          deleteItem={() => deleteItem(item.id)}
-        />
-      ))}
+      {isPending ? (
+        <>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <PhotoCardSkeleton key={index} />
+          ))}
+        </>
+      ) : (
+        list.map((item) => (
+          <PhotoCard
+            key={item.id}
+            item={item}
+            deleteItem={() => deleteItem(item.id)}
+          />
+        ))
+      )}
     </XStack>
   );
 }

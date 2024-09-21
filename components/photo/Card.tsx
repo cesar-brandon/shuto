@@ -1,15 +1,13 @@
 import React from "react";
 import { Button, Card, Image } from "tamagui";
 import { PhotoOptions } from "./Options";
+import { Photo } from "@/lib/types/photo";
 
 export function PhotoCard({
   item,
   deleteItem,
 }: {
-  item: {
-    title: string;
-    image: string;
-  };
+  item: Photo;
   deleteItem: () => void;
 }) {
   return (
@@ -24,7 +22,7 @@ export function PhotoCard({
             theme="active"
             disabled
           >
-            {item.title}
+            {item.content.title}
           </Button>
         </Card.Footer>
 
@@ -34,11 +32,29 @@ export function PhotoCard({
             source={{
               width: 300,
               height: 300,
-              uri: item.image,
+              uri: item.image.uri,
             }}
           />
         </Card.Background>
       </Card>
     </PhotoOptions>
+  );
+}
+
+export function PhotoCardSkeleton() {
+  return (
+    <Card width={150} height={200} overflow="hidden">
+      <Card.Footer padded>
+        <Button
+          width="100%"
+          height="$3"
+          fontSize="$3"
+          borderRadius="$4"
+          theme="active"
+          disabled
+        />
+      </Card.Footer>
+      <Card.Background backgroundColor="$color3" />
+    </Card>
   );
 }
