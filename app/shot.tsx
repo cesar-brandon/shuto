@@ -1,5 +1,10 @@
-import { Button, Image, View, XStack } from "tamagui";
-import { CameraView, useCameraPermissions, FlashMode } from "expo-camera";
+import { Button, View, XStack } from "tamagui";
+import {
+  CameraView,
+  useCameraPermissions,
+  FlashMode,
+  CameraCapturedPicture,
+} from "expo-camera";
 import { StyleSheet } from "react-native";
 import {
   Camera,
@@ -8,19 +13,18 @@ import {
   Flashlight,
   FlashlightOff,
   Sprout,
-  Trash,
-  X,
   Zap,
   ZapOff,
 } from "@tamagui/lucide-icons";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "expo-router";
+import { PhotoPreview } from "@/components/photo/Preview";
 
 export default function ShotScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState<FlashMode>("off");
   const [torch, setTorch] = useState(false);
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<CameraCapturedPicture>();
 
   const cameraRef = useRef<CameraView>(null);
 
@@ -59,7 +63,7 @@ export default function ShotScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync();
         if (!photo) return;
-        setImage(photo.uri);
+        setImage(photo);
       } catch (error) {
         console.log("ERROR_TAKE_PICTURE", error);
       }
@@ -157,32 +161,7 @@ export default function ShotScreen() {
           </View>
         </CameraView>
       ) : (
-        <View flex={1} justifyContent="center" alignItems="center" gap="$10">
-          <XStack
-            position="relative"
-            padding="$2"
-            borderRadius="$true"
-            elevation="$3"
-            backgroundColor="$color1"
-          >
-            <Image
-              source={{ uri: image }}
-              style={{ width: 300, height: 300, borderRadius: 10 }}
-              zIndex={0}
-            />
-            <Button
-              size="$3"
-              position="absolute"
-              top="$3"
-              right="$3"
-              zIndex={1}
-              icon={<X size="$1" />}
-              onPress={() => setImage(null)}
-              themeInverse
-            />
-          </XStack>
-          <Button onPress={() => {}}>Confirmar</Button>
-        </View>
+        <PhotoPreview image={image} setImage={setImage} />
       )}
     </>
   );
