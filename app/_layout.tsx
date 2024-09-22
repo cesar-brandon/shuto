@@ -40,16 +40,14 @@ export default function RootLayout() {
       defaultTheme={colorScheme === "dark" ? "dark" : "light"}
     >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <PortalProvider shouldAddRootHost>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="home" options={{ headerShown: false }} />
-            <Stack.Screen name="shot" options={{ headerShown: false }} />
-            <Stack.Screen name="preview" options={{ headerShown: false }} />
-            <Stack.Screen name="photo/[id]" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        </PortalProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="home" options={{ headerShown: false }} />
+          <Stack.Screen name="shot" options={{ headerShown: false }} />
+          <Stack.Screen name="preview" options={{ headerShown: false }} />
+          <Stack.Screen name="photo/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
       </ThemeProvider>
     </TamaguiProvider>
   );

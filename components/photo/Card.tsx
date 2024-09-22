@@ -12,7 +12,12 @@ export function PhotoCard({
 }) {
   return (
     <PhotoOptions deleteItem={deleteItem} itemId={item.id}>
-      <Card width={150} height={200} overflow="hidden">
+      <Card
+        width={150}
+        height={200}
+        $xl={{ width: 200, height: 250 }}
+        overflow="hidden"
+      >
         <Card.Footer padded>
           <Button
             width="100%"

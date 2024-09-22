@@ -9,7 +9,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { H4, Image, View, useTheme } from "tamagui";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Photo } from "@/lib/types/photo";
 
 const HEADER_HEIGHT = 250;
 
@@ -19,10 +18,8 @@ type UserInfo = {
 
 export default function ParallaxScrollView({
   children,
-  list,
 }: {
   children: React.ReactNode;
-  list: Photo[];
 }) {
   const theme = useTheme();
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);

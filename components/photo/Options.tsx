@@ -47,7 +47,7 @@ export function PhotoOptions({
             alignSelf="center"
             icon={<Eye size="$1" />}
             width="$11"
-            onPress={() => router.push(`/photo/${itemId}`)}
+            onPress={() => router.navigate(`/photo/${itemId}`)}
           >
             Observar
           </Button>

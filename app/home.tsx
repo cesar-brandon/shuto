@@ -4,7 +4,7 @@ import useImageStorage from "@/hooks/useImageStorage";
 import { Sprout } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, Popover, Text } from "tamagui";
+import { Button, Popover, PortalProvider, Text } from "tamagui";
 
 export default function HomeScreen() {
   const { isPending, images, deleteImage } = useImageStorage();
@@ -15,8 +15,8 @@ export default function HomeScreen() {
   }, [images]);
 
   return (
-    <>
-      <ParallaxScrollView list={images}>
+    <PortalProvider shouldAddRootHost>
+      <ParallaxScrollView>
         <PhotoList
           images={images}
           isPending={isPending}
@@ -39,6 +39,11 @@ export default function HomeScreen() {
               transform={[{ translateX: -30 }]}
               bottom={20}
               backgroundColor="$accentColor"
+              pressStyle={{
+                borderWidth: 0,
+                backgroundColor: "$accentColor",
+                opacity: 0.8,
+              }}
               icon={<Sprout color="$color2" size="$4" />}
               zIndex={2}
             />
@@ -49,6 +54,6 @@ export default function HomeScreen() {
           <Text>Empieza a tomar fotos de tus plantas</Text>
         </Popover.Content>
       </Popover>
-    </>
+    </PortalProvider>
   );
 }
