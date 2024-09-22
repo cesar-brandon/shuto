@@ -1,39 +1,21 @@
 import { XStack } from "tamagui";
 import { PhotoCard, PhotoCardSkeleton } from "./Card";
-import { useEffect, useState } from "react";
-import { Photo } from "@/lib/types/photo";
+import useImageStorage from "@/hooks/useImageStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Photo } from "@/lib/types/photo";
+import { Alert } from "react-native";
 
 //NOTE: intentar: $sm={{ flexDirection: "column" }}
-export function PhotoList() {
-  const [list, setList] = useState<Photo[]>([]);
-  const [isPending, setIsPending] = useState<boolean>(true);
-
-  const deleteItem = (id: string) => {
-    setList(list.filter((item) => item.id !== id));
-    AsyncStorage.setItem(
-      "@images",
-      JSON.stringify(list.filter((item) => item.id !== id)),
-    );
-  };
-
-  const getImages = async () => {
-    setIsPending(true);
-    try {
-      const images = await AsyncStorage.getItem("@images");
-      if (images) {
-        setList(JSON.parse(images));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsPending(false);
-    }
-  };
-
-  useEffect(() => {
-    getImages();
-  }, [AsyncStorage.setItem]);
+export function PhotoList({
+  isPending,
+  images,
+  deleteImage,
+}: {
+  isPending: boolean;
+  images: Photo[];
+  deleteImage: (id: string) => void;
+}) {
+  if (!images) return null;
 
   return (
     <XStack
@@ -50,11 +32,11 @@ export function PhotoList() {
           ))}
         </>
       ) : (
-        list.map((item) => (
+        images.map((item) => (
           <PhotoCard
             key={item.id}
             item={item}
-            deleteItem={() => deleteItem(item.id)}
+            deleteItem={() => deleteImage(item.id)}
           />
         ))
       )}

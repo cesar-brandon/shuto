@@ -1,4 +1,5 @@
 import { Eye, Trash } from "@tamagui/lucide-icons";
+import { router } from "expo-router";
 import React from "react";
 import {
   Button,
@@ -12,10 +13,11 @@ import {
 export function PhotoOptions({
   children,
   deleteItem,
+  itemId,
 }: {
   children: React.ReactNode;
-
   deleteItem: () => void;
+  itemId: string;
 }) {
   return (
     <Popover size="$3" placement="top" allowFlip>
@@ -41,7 +43,12 @@ export function PhotoOptions({
       >
         <PopoverArrow size="$4" backgroundColor="$color3" />
         <YStack gap="$2">
-          <Button alignSelf="center" icon={<Eye size="$1" />} width="$11">
+          <Button
+            alignSelf="center"
+            icon={<Eye size="$1" />}
+            width="$11"
+            onPress={() => router.push(`/photo/${itemId}`)}
+          >
             Observar
           </Button>
           <Button

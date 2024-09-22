@@ -6,11 +6,10 @@ import Animated, {
   useScrollViewOffset,
 } from "react-native-reanimated";
 import { ThemedView } from "@/components/ThemedView";
-import { Button, H4, Image, View, useTheme } from "tamagui";
-import { Sprout } from "@tamagui/lucide-icons";
-import { Link } from "expo-router";
+import { H4, Image, View, useTheme } from "tamagui";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Photo } from "@/lib/types/photo";
 
 const HEADER_HEIGHT = 250;
 
@@ -20,8 +19,10 @@ type UserInfo = {
 
 export default function ParallaxScrollView({
   children,
+  list,
 }: {
   children: React.ReactNode;
+  list: Photo[];
 }) {
   const theme = useTheme();
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
@@ -107,18 +108,6 @@ export default function ParallaxScrollView({
           {children}
         </ThemedView>
       </Animated.ScrollView>
-      <Link href="/shot" asChild>
-        <Button
-          width={60}
-          height={60}
-          position="absolute"
-          left={"50%"}
-          transform={[{ translateX: -30 }]}
-          bottom={20}
-          backgroundColor="$accentColor"
-          icon={<Sprout color="$color2" size="$4" />}
-        />
-      </Link>
     </View>
   );
 }
