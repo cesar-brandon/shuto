@@ -13,8 +13,7 @@ export function PhotoCard({
   return (
     <PhotoOptions deleteItem={deleteItem} itemId={item.id}>
       <Card
-        width={150}
-        height={200}
+        $sm={{ width: 150, height: 200 }}
         $xl={{ width: 200, height: 250 }}
         overflow="hidden"
       >

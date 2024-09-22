@@ -42,7 +42,7 @@ export function AnimatedIntro() {
       fontColor: theme.accentColor.val,
     },
     {
-      title: "Shūto",
+      title: "Y Diviértete!",
       bg: theme.background.val,
       fontColor: theme.accentColor.val,
     },

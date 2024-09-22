@@ -48,7 +48,8 @@ export default function PhotoInfoScreen() {
         >
           <Image
             width="100%"
-            height={400}
+            $sm={{ height: 300 }}
+            $xl={{ height: 400 }}
             borderRadius="$true"
             source={{ uri: image.image.uri || "" }}
             zIndex={0}

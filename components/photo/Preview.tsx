@@ -1,4 +1,13 @@
-import { Button, Image, Square, Text, View, XStack, YStack } from "tamagui";
+import {
+  Button,
+  Image,
+  ScrollView,
+  Square,
+  Text,
+  View,
+  XStack,
+  YStack,
+} from "tamagui";
 import { X } from "@tamagui/lucide-icons";
 import useImageStorage from "@/hooks/useImageStorage";
 import { Photo } from "@/lib/types/photo";
@@ -10,7 +19,7 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
   const { deleteImage } = useImageStorage();
 
   return (
-    <View flex={1} justifyContent="center" alignItems="center" gap="$10">
+    <View flex={1} justifyContent="center" alignItems="center" gap="$6">
       <XStack
         position="relative"
         padding="$2"
@@ -37,7 +46,7 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
           themeInverse
         />
       </XStack>
-      <YStack gap="$2">
+      <YStack gap="$3">
         <View
           width="auto"
           backgroundColor="$color3"
@@ -48,9 +57,17 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
             {photo.content.title}
           </Text>
         </View>
-        <Text fontSize="$3">{photo.content.body}</Text>
+        <ScrollView
+          maxHeight={250}
+          width="75%"
+          backgroundColor="$background"
+          padding="$4"
+          borderRadius="$4"
+        >
+          <Text fontSize="$3">{photo.content.body}</Text>
+        </ScrollView>
       </YStack>
-      <Button onPress={() => router.replace("/home")}>Volver Inicio</Button>
+      <Button onPress={() => router.replace("/home")}>Volver al inicio</Button>
     </View>
   );
 }
