@@ -1,14 +1,5 @@
-import {
-  Button,
-  Image,
-  ScrollView,
-  Square,
-  Text,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
-import { X } from "@tamagui/lucide-icons";
+import { Button, Image, ScrollView, Text, View, XStack, YStack } from "tamagui";
+import { CornerUpLeft, X } from "@tamagui/lucide-icons";
 import useImageStorage from "@/hooks/useImageStorage";
 import { Photo } from "@/lib/types/photo";
 import { router } from "expo-router";
@@ -19,11 +10,17 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
   const { deleteImage } = useImageStorage();
 
   return (
-    <View flex={1} justifyContent="center" alignItems="center" gap="$6">
+    <View
+      flex={1}
+      justifyContent="center"
+      alignItems="center"
+      gap="$6"
+      padding="$5"
+    >
       <XStack
         position="relative"
         padding="$2"
-        borderRadius="$true"
+        borderRadius="$7"
         elevation="$3"
         backgroundColor="$color1"
       >
@@ -37,6 +34,7 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
           position="absolute"
           top="$3"
           right="$3"
+          borderRadius="$5"
           zIndex={1}
           icon={<X size="$1" />}
           onPress={() => {
@@ -46,12 +44,12 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
           themeInverse
         />
       </XStack>
-      <YStack gap="$3">
+      <YStack gap="$3" width="100%">
         <View
           width="auto"
           backgroundColor="$color3"
           padding="$3"
-          borderRadius="$true"
+          borderRadius="$7"
         >
           <Text fontSize="$4" fontWeight="bold" textAlign="center">
             {photo.content.title}
@@ -59,15 +57,28 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
         </View>
         <ScrollView
           maxHeight={250}
-          width="75%"
+          width="100%"
           backgroundColor="$background"
           padding="$4"
-          borderRadius="$4"
+          borderRadius="$7"
+          borderWidth={1}
+          borderColor="$color3"
         >
           <Text fontSize="$3">{photo.content.body}</Text>
         </ScrollView>
       </YStack>
-      <Button onPress={() => router.replace("/home")}>Volver al inicio</Button>
+      <XStack gap="$3">
+        <Button
+          borderRadius="$7"
+          width={50}
+          icon={<CornerUpLeft size="$1" />}
+          onPress={() => router.back()}
+          themeInverse
+        />
+        <Button borderRadius="$7" onPress={() => router.replace("/home")}>
+          Volver al inicio
+        </Button>
+      </XStack>
     </View>
   );
 }

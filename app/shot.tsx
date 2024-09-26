@@ -106,18 +106,24 @@ export default function ShotScreen() {
           marginLeft={40}
           marginRight={40}
         >
-          <Link href="/home" asChild>
-            <Button width={50} icon={<CornerUpLeft size="$1" />} themeInverse />
-          </Link>
+          <Button
+            borderRadius="$7"
+            width={50}
+            icon={<CornerUpLeft size="$1" />}
+            onPress={() => router.push("/home")}
+            themeInverse
+          />
           <XStack gap="$2">
             <Button
               width={50}
+              borderRadius="$7"
               onPress={toggleCameraFlash}
               icon={flash === "on" ? <Zap size="$1" /> : <ZapOff size="$1" />}
               themeInverse
             />
             <Button
               width={50}
+              borderRadius="$7"
               onPress={toggleTorch}
               icon={
                 torch ? <Flashlight size="$1" /> : <FlashlightOff size="$1" />

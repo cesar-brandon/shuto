@@ -14,9 +14,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
-import Animated from "react-native-reanimated";
 import { usePulseAnimation } from "@/hooks/animations/usePulseAnimation";
-import { ArrowRightCircle, ChevronRight } from "@tamagui/lucide-icons";
+import { ChevronRight } from "@tamagui/lucide-icons";
 
 type UserInfo = {
   username: string;
@@ -28,7 +27,6 @@ const BottomLoginSheet = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const theme = useTheme();
-  const animatedStyle = usePulseAnimation();
 
   const { bottom } = useSafeAreaInsets();
 
@@ -69,7 +67,7 @@ const BottomLoginSheet = () => {
           <XStack
             position="relative"
             width="98%"
-            borderRadius="$6"
+            borderRadius="$7"
             borderWidth={1}
             borderColor="$color6"
             backgroundColor="$color2"

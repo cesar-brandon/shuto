@@ -15,7 +15,7 @@ export default function HomeScreen() {
         display="flex"
         alignItems="center"
         overflow="hidden"
-        borderRadius="$6"
+        borderRadius="$7"
       >
         <Image
           source={{

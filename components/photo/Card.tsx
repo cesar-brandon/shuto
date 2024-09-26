@@ -16,13 +16,14 @@ export function PhotoCard({
         $sm={{ width: 150, height: 200 }}
         $xl={{ width: 200, height: 250 }}
         overflow="hidden"
+        borderRadius="$7"
       >
         <Card.Footer padded>
           <Button
             width="100%"
             height="$3"
             fontSize="$3"
-            borderRadius="$4"
+            borderRadius="$7"
             theme="active"
             disabled
           >
@@ -53,7 +54,7 @@ export function PhotoCardSkeleton() {
           width="100%"
           height="$3"
           fontSize="$3"
-          borderRadius="$4"
+          borderRadius="$7"
           theme="active"
           disabled
         />
