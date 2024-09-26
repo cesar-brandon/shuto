@@ -1,9 +1,22 @@
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button, Form, H4, Input, Spinner, Text, View, XStack } from "tamagui";
+import {
+  Button,
+  Form,
+  H4,
+  Input,
+  Spinner,
+  Text,
+  View,
+  XStack,
+  useTheme,
+} from "tamagui";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
+import Animated from "react-native-reanimated";
+import { usePulseAnimation } from "@/hooks/animations/usePulseAnimation";
+import { ArrowRightCircle, ChevronRight } from "@tamagui/lucide-icons";
 
 type UserInfo = {
   username: string;
@@ -13,7 +26,9 @@ const BottomLoginSheet = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [buttonBackground, setButtonBackground] = useState("$color2");
+
+  const theme = useTheme();
+  const animatedStyle = usePulseAnimation();
 
   const { bottom } = useSafeAreaInsets();
 
@@ -32,12 +47,6 @@ const BottomLoginSheet = () => {
 
   useEffect(() => {
     getUser();
-
-    setInterval(() => {
-      setButtonBackground((prev) =>
-        prev === "$color2" ? "$color3" : "$color2",
-      );
-    }, 1200);
   }, []);
 
   const onSubmit = async () => {
@@ -58,42 +67,43 @@ const BottomLoginSheet = () => {
       {userInfo && userInfo.username ? (
         <Link href="/home" asChild>
           <XStack
+            position="relative"
             width="98%"
             borderRadius="$6"
             borderWidth={1}
             borderColor="$color6"
-            backgroundColor={buttonBackground}
+            backgroundColor="$color2"
             paddingHorizontal="$6"
             paddingVertical="$3"
             alignItems="center"
-            gap="$6"
+            justifyContent="center"
+            gap="$4"
             overflow="hidden"
             pressStyle={{ scale: 1.05 }}
-            animation={{
-              backgroundColor: "lazy",
-            }}
           >
-            <View
-              width={60}
-              height={60}
-              backgroundColor="$color3"
-              borderRadius={30}
-              overflow="hidden"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text fontSize="$5" color="$color10" fontWeight="bold">
-                {userInfo.username &&
-                  userInfo.username
-                    .split(" ")
-                    .slice(0, 2)
-                    .map((word) => word[0].toUpperCase())
-                    .join("")}
-              </Text>
-            </View>
-            <H4 color="$color10" fontWeight="bold">
+            {/* <View */}
+            {/*   width={45} */}
+            {/*   height={45} */}
+            {/*   backgroundColor="$color3" */}
+            {/*   borderRadius={30} */}
+            {/*   overflow="hidden" */}
+            {/*   alignItems="center" */}
+            {/*   justifyContent="center" */}
+            {/* > */}
+            {/*   <Text fontSize="$5" color="$color10" fontWeight="bold"> */}
+            {/*     {userInfo.username && */}
+            {/*       userInfo.username */}
+            {/*         .split(" ") */}
+            {/*         .slice(0, 2) */}
+            {/*         .map((word) => word[0].toUpperCase()) */}
+            {/*         .join("")} */}
+            {/*   </Text> */}
+            {/* </View> */}
+            <H4 color="$color10" fontWeight="bold" marginBottom="$1">
               {userInfo.username}
             </H4>
+            {/* <ArrowRightCircle size={24} color={theme.color10.val} /> */}
+            <ChevronRight size={24} color={theme.color10.val} />
           </XStack>
         </Link>
       ) : (
