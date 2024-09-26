@@ -8,7 +8,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import { PortalProvider, TamaguiProvider } from "tamagui";
+import { TamaguiProvider } from "tamagui";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import appConfig from "@/tamagui.config";
 import "expo-dev-client";
