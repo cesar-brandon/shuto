@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     gap: 16,
     padding: 20,
     overflow: "hidden",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
     marginTop: -80,
   },
 });

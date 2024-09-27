@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Image } from "tamagui";
+import { Button, Card, Image, Text } from "tamagui";
 import { PhotoOptions } from "./Options";
 import { Photo } from "@/lib/types/photo";
 import { router } from "expo-router";
@@ -14,28 +14,23 @@ export function PhotoCard({
   return (
     // <PhotoOptions deleteItem={deleteItem} itemId={item.id}>
     <Card
-      $sm={{ width: 150, height: 200 }}
+      $sm={{ width: 150, height: 220 }}
       $xl={{ width: 200, height: 250 }}
       overflow="hidden"
-      borderRadius="$7"
+      borderRadius="$10"
       onPress={() => {
         router.push(`/photo/${item.id}`);
       }}
     >
-      <Card.Footer padded>
-        <Button
-          width="100%"
-          height="$3"
-          fontSize="$3"
-          borderRadius="$7"
-          theme="active"
-          disabled
-        >
-          {item.content.title}
-        </Button>
+      <Card.Footer>
+        <Text width="100%" height="$3" fontSize="$3" textAlign="center">
+          {item.content.title.length > 14
+            ? item.content.title.slice(0, 14) + "..."
+            : item.content.title}
+        </Text>
       </Card.Footer>
 
-      <Card.Background>
+      <Card.Background height={170} borderRadius="$10">
         <Image
           alignSelf="center"
           source={{
@@ -52,7 +47,7 @@ export function PhotoCard({
 
 export function PhotoCardSkeleton() {
   return (
-    <Card width={150} height={200} overflow="hidden">
+    <Card width={150} height={220} overflow="hidden">
       <Card.Footer padded>
         <Button
           width="100%"

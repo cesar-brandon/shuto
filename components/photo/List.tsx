@@ -21,7 +21,8 @@ export function PhotoList({
     <XStack
       flex={1}
       flexWrap="wrap"
-      gap="$4"
+      rowGap="$1"
+      columnGap="$4"
       justifyContent="center"
       marginBottom="$12"
     >
