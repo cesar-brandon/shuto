@@ -19,6 +19,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
+    "@tamagui/babel-plugin": "^1.112.1",
     "@tamagui/cli": "^1.103.0",
     "@tamagui/config": "^1.103.0",
     "@tamagui/lucide-icons": "^1.103.0",
