@@ -5,9 +5,55 @@ import { Photo } from "@/lib/types/photo";
 import { router } from "expo-router";
 import { Skeleton } from "../ui/Skeleton";
 import { useTheme } from "tamagui";
+import { useEffect, useState } from "react";
+import { convertImageToBase64 } from "@/lib/utils/image";
 
-export function PhotoPreview({ photo }: { photo: Photo }) {
-  const { deleteImage } = useImageStorage();
+export function PhotoPreview({
+  photoPreview,
+  setPhotoPreview,
+}: {
+  photoPreview: Photo;
+  setPhotoPreview: (photo: Photo) => void;
+}) {
+  const { deleteImage, saveImage } = useImageStorage();
+  const [isPending, setIsPending] = useState(false);
+
+  const getImageInformation = async () => {
+    setIsPending(true);
+    try {
+      const base64Image = await convertImageToBase64(photoPreview.image.uri);
+      if (!base64Image) return;
+      const response = await fetch("/api/image/info", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          base64Image,
+        }),
+      });
+      const json = await response.json();
+      const content = json.content;
+      if (content) {
+        setPhotoPreview({
+          ...photoPreview,
+          content,
+        });
+        saveImage({
+          ...photoPreview,
+          content,
+        });
+      }
+    } catch (error) {
+      console.error("Error parsing image:", error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  useEffect(() => {
+    getImageInformation();
+  }, []);
 
   return (
     <View
@@ -25,7 +71,7 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
         backgroundColor="$color1"
       >
         <Image
-          source={{ uri: photo.image.uri || "" }}
+          source={{ uri: photoPreview.image.uri || "" }}
           style={{ width: 300, height: 300, borderRadius: 10 }}
           zIndex={0}
         />
@@ -38,35 +84,42 @@ export function PhotoPreview({ photo }: { photo: Photo }) {
           zIndex={1}
           icon={<X size="$1" />}
           onPress={() => {
-            deleteImage(photo.id);
+            deleteImage(photoPreview.id);
             router.back();
           }}
           themeInverse
         />
       </XStack>
-      <YStack gap="$3" width="100%">
-        <View
-          width="auto"
-          backgroundColor="$color3"
-          padding="$3"
-          borderRadius="$7"
-        >
-          <Text fontSize="$4" fontWeight="bold" textAlign="center">
-            {photo.content.title}
-          </Text>
-        </View>
-        <ScrollView
-          maxHeight={250}
-          width="100%"
-          backgroundColor="$background"
-          padding="$4"
-          borderRadius="$7"
-          borderWidth={1}
-          borderColor="$color3"
-        >
-          <Text fontSize="$3">{photo.content.body}</Text>
-        </ScrollView>
-      </YStack>
+      {isPending ? (
+        <BodySkeleton />
+      ) : (
+        photoPreview && (
+          <YStack gap="$3" width="100%">
+            <View
+              width="auto"
+              backgroundColor="$color3"
+              padding="$3"
+              borderRadius="$7"
+            >
+              <Text fontSize="$4" fontWeight="bold" textAlign="center">
+                {photoPreview.content.title}
+              </Text>
+            </View>
+            <ScrollView
+              maxHeight={250}
+              width="100%"
+              backgroundColor="$background"
+              padding="$4"
+              borderRadius="$7"
+              borderWidth={1}
+              borderColor="$color3"
+            >
+              <Text fontSize="$3">{photoPreview.content.body}</Text>
+            </ScrollView>
+          </YStack>
+        )
+      )}
+
       <XStack gap="$3">
         <Button
           borderRadius="$7"

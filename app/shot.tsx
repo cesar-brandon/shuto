@@ -12,8 +12,7 @@ import {
   ZapOff,
 } from "@tamagui/lucide-icons";
 import { useEffect, useRef, useState } from "react";
-import { Link, router } from "expo-router";
-import useImageStorage from "@/hooks/useImageStorage";
+import { router } from "expo-router";
 
 export default function ShotScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -24,7 +23,6 @@ export default function ShotScreen() {
     opacity: 0.2,
   });
   const [isPending, setIsPending] = useState(false);
-  const { saveImage } = useImageStorage();
   const cameraRef = useRef<CameraView>(null);
 
   useEffect(() => {
@@ -77,10 +75,14 @@ export default function ShotScreen() {
       try {
         const photo = await cameraRef.current.takePictureAsync();
         if (!photo) return;
-        const result = await saveImage(photo);
-        if (result) {
-          router.push("/preview");
-        }
+        router.push({
+          pathname: "/preview",
+          params: {
+            uri: photo.uri,
+            width: photo.width,
+            height: photo.height,
+          },
+        });
       } catch (error) {
         console.log("ERROR_TAKE_PICTURE", error);
       } finally {
@@ -168,9 +170,9 @@ export default function ShotScreen() {
           justifyContent="center"
         >
           <Button
-            width={60}
-            height={60}
-            icon={<Disc size="$3" opacity={0.5} />}
+            width={70}
+            height={70}
+            icon={<Disc size="$7" strokeWidth={1} />}
             borderRadius="$10"
             onPress={takePicture}
           />

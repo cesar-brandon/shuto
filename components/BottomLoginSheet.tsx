@@ -6,7 +6,6 @@ import {
   H4,
   Input,
   Spinner,
-  Text,
   View,
   XStack,
   useTheme,
@@ -14,7 +13,6 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Link, useRouter } from "expo-router";
-import { usePulseAnimation } from "@/hooks/animations/usePulseAnimation";
 import { ChevronRight } from "@tamagui/lucide-icons";
 
 type UserInfo = {
