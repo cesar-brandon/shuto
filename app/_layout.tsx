@@ -35,10 +35,7 @@ export default function RootLayout() {
   }
 
   return (
-    <TamaguiProvider
-      config={appConfig}
-      defaultTheme={colorScheme === "dark" ? "dark" : "light"}
-    >
+    <TamaguiProvider config={appConfig} defaultTheme={colorScheme!}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
