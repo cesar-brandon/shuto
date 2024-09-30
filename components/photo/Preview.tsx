@@ -1,27 +1,29 @@
 import { Button, Image, ScrollView, Text, View, XStack, YStack } from "tamagui";
-import { CornerUpLeft, X } from "@tamagui/lucide-icons";
+import { CornerUpLeft, RotateCw, X } from "@tamagui/lucide-icons";
 import useImageStorage from "@/hooks/useImageStorage";
 import { Photo } from "@/lib/types/photo";
 import { router } from "expo-router";
 import { Skeleton } from "../ui/Skeleton";
 import { useTheme } from "tamagui";
 import { useEffect, useState } from "react";
-import { convertImageToBase64 } from "@/lib/utils/image";
+import { useToastController } from "@tamagui/toast";
 
 export function PhotoPreview({
   photoPreview,
   setPhotoPreview,
+  base64Image,
 }: {
   photoPreview: Photo;
   setPhotoPreview: (photo: Photo) => void;
+  base64Image: string | null;
 }) {
-  const { deleteImage, saveImage } = useImageStorage();
+  const { saveImage } = useImageStorage();
   const [isPending, setIsPending] = useState(false);
+  const toast = useToastController();
 
   const getImageInformation = async () => {
     setIsPending(true);
     try {
-      const base64Image = await convertImageToBase64(photoPreview.image.uri);
       if (!base64Image) return;
       const response = await fetch("/api/image/info", {
         method: "POST",
@@ -39,13 +41,20 @@ export function PhotoPreview({
           ...photoPreview,
           content,
         });
-        saveImage({
-          ...photoPreview,
-          content,
-        });
       }
     } catch (error) {
       console.error("Error parsing image:", error);
+      setPhotoPreview({
+        ...photoPreview,
+        content: {
+          title: "No se pudo obtener información",
+          body: "No se pudo obtener información",
+        },
+      });
+
+      toast.show("Ocurrio un error", {
+        message: "No se pudo obtener información",
+      });
     } finally {
       setIsPending(false);
     }
@@ -53,7 +62,7 @@ export function PhotoPreview({
 
   useEffect(() => {
     getImageInformation();
-  }, []);
+  }, [base64Image]);
 
   return (
     <View
@@ -83,10 +92,7 @@ export function PhotoPreview({
           borderRadius="$5"
           zIndex={1}
           icon={<X size="$1" />}
-          onPress={() => {
-            deleteImage(photoPreview.id);
-            router.back();
-          }}
+          onPress={() => router.back()}
           themeInverse
         />
       </XStack>
@@ -128,8 +134,21 @@ export function PhotoPreview({
           onPress={() => router.back()}
           themeInverse
         />
-        <Button borderRadius="$7" onPress={() => router.replace("/home")}>
-          Volver al inicio
+        <Button
+          borderRadius="$7"
+          width={50}
+          icon={<RotateCw size="$1" />}
+          onPress={getImageInformation}
+          themeInverse
+        />
+        <Button
+          borderRadius="$7"
+          onPress={async () => {
+            await saveImage(photoPreview);
+            router.replace("/home");
+          }}
+        >
+          Guardar y volver
         </Button>
       </XStack>
     </View>

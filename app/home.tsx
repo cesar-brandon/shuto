@@ -4,7 +4,7 @@ import useImageStorage from "@/hooks/useImageStorage";
 import { Sprout } from "@tamagui/lucide-icons";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, Popover, Text } from "tamagui";
+import { Button, Text, View } from "tamagui";
 import { PortalProvider } from "@tamagui/portal";
 
 export default function HomeScreen() {
@@ -24,37 +24,44 @@ export default function HomeScreen() {
           deleteImage={deleteImage}
         />
       </ParallaxScrollView>
-      <Popover
-        open={isPopoverOpen}
-        onOpenChange={setIsPopoverOpen}
-        size="$5"
-        placement="top"
+      <View
+        display={!isPending && isPopoverOpen ? "flex" : "none"}
+        position="absolute"
+        width="80%"
+        left={"10%"}
+        bottom={90}
+        backgroundColor="$color1"
+        borderRadius="$7"
       >
-        <Popover.Trigger asChild>
-          <Link href="/shot" asChild>
-            <Button
-              width={60}
-              height={60}
-              position="absolute"
-              left={"50%"}
-              transform={[{ translateX: -30 }]}
-              bottom={20}
-              backgroundColor="$accentColor"
-              borderRadius="$7"
-              pressStyle={{
-                borderWidth: 0,
-                backgroundColor: "$accentColor",
-              }}
-              icon={<Sprout color="$color2" size="$2" />}
-              zIndex={2}
-            />
-          </Link>
-        </Popover.Trigger>
-        <Popover.Content>
-          <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
-          <Text>Empieza a tomar fotos de tus plantas</Text>
-        </Popover.Content>
-      </Popover>
+        <Text
+          textAlign="center"
+          color="$color10"
+          fontSize="$3"
+          fontWeight="bold"
+          paddingVertical={20}
+        >
+          Empieza a tomar fotos de tus plantas
+        </Text>
+      </View>
+
+      <Link href="/shot" asChild>
+        <Button
+          width={60}
+          height={60}
+          position="absolute"
+          left={"50%"}
+          transform={[{ translateX: -30 }]}
+          bottom={20}
+          backgroundColor="$accentColor"
+          borderRadius="$7"
+          pressStyle={{
+            borderWidth: 0,
+            backgroundColor: "$accentColor",
+          }}
+          icon={<Sprout color="$color2" size="$2" />}
+          zIndex={2}
+        />
+      </Link>
     </PortalProvider>
   );
 }

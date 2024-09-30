@@ -1,9 +1,6 @@
 import { XStack } from "tamagui";
 import { PhotoCard, PhotoCardSkeleton } from "./Card";
-import useImageStorage from "@/hooks/useImageStorage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Photo } from "@/lib/types/photo";
-import { Alert } from "react-native";
 
 //NOTE: intentar: $sm={{ flexDirection: "column" }}
 export function PhotoList({

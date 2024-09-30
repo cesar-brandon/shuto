@@ -36,7 +36,7 @@ export default function ShotScreen() {
       setFocusBackground((prev) =>
         prev.opacity === 1
           ? { backgroundColor: "$color3", opacity: 0.5 }
-          : { backgroundColor: "transparent", opacity: 1 },
+          : { backgroundColor: "transparent", opacity: 1 }
       );
     }, 500);
 
@@ -163,19 +163,24 @@ export default function ShotScreen() {
 
         <View
           position="absolute"
+          width={70}
+          height={70}
           bottom={40}
-          width="100%"
           flex={1}
-          flexDirection="row"
+          alignSelf="center"
+          alignItems="center"
           justifyContent="center"
+          backgroundColor="transparent"
+          borderWidth={2}
+          borderColor="$color3"
+          borderRadius="$10"
         >
           <Button
-            width={70}
-            height={70}
-            icon={<Disc size="$7" strokeWidth={1} />}
+            width={50}
+            height={50}
             borderRadius="$10"
             onPress={takePicture}
-          />
+          ></Button>
         </View>
       </View>
     </CameraView>

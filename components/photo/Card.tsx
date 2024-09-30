@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Image, Text } from "tamagui";
+import { Card, Image, Text, View } from "tamagui";
 import { PhotoOptions } from "./Options";
 import { Photo } from "@/lib/types/photo";
 import { router } from "expo-router";
@@ -47,18 +47,27 @@ export function PhotoCard({
 
 export function PhotoCardSkeleton() {
   return (
-    <Card width={150} height={220} overflow="hidden">
-      <Card.Footer padded>
-        <Button
-          width="100%"
-          height="$3"
-          fontSize="$3"
+    <Card
+      $sm={{ width: 150, height: 220 }}
+      $xl={{ width: 200, height: 250 }}
+      overflow="hidden"
+      borderRadius="$10"
+    >
+      <Card.Footer>
+        <View
+          left="50%"
+          width="80%"
+          height="$2"
           borderRadius="$7"
-          theme="active"
-          disabled
+          backgroundColor="$color4"
+          marginBottom="$2"
         />
       </Card.Footer>
-      <Card.Background backgroundColor="$color3" />
+      <Card.Background
+        height={170}
+        borderRadius="$10"
+        backgroundColor="$color3"
+      />
     </Card>
   );
 }

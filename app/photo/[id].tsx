@@ -1,3 +1,4 @@
+import { BodySkeleton } from "@/components/photo/Preview";
 import useImageStorage from "@/hooks/useImageStorage";
 import { CornerUpLeft, Trash } from "@tamagui/lucide-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -13,7 +14,7 @@ export default function PhotoInfoScreen() {
     getImage(id as string);
   }, [id]);
 
-  if (!image) return <Text>Cargando...</Text>;
+  if (!image) return <PhotoInfoSkeleton />;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -32,8 +33,8 @@ export default function PhotoInfoScreen() {
             }}
             color="$red1Light"
             icon={<Trash size="$1" />}
-            onPress={() => {
-              deleteImage(id as string);
+            onPress={async () => {
+              await deleteImage(id as string);
               router.push("/home");
             }}
           />
@@ -78,6 +79,46 @@ export default function PhotoInfoScreen() {
             <Text fontSize="$3">{image.content.body}</Text>
           </ScrollView>
         </YStack>
+      </YStack>
+    </SafeAreaView>
+  );
+}
+
+function PhotoInfoSkeleton() {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack flex={1} gap="$5" padding="$4">
+        <XStack justifyContent="space-between">
+          <View
+            width={60}
+            height={50}
+            borderRadius="$7"
+            backgroundColor="$color3"
+          />
+          <View
+            width={60}
+            height={50}
+            borderRadius="$7"
+            backgroundColor="$color3"
+          />
+        </XStack>
+
+        <XStack
+          position="relative"
+          padding="$2"
+          borderRadius="$7"
+          elevation="$3"
+          backgroundColor="$color1"
+        >
+          <View
+            width="100%"
+            $sm={{ height: 300 }}
+            $xl={{ height: 400 }}
+            borderRadius="$6"
+            backgroundColor="$color3"
+          />
+        </XStack>
+        <BodySkeleton />
       </YStack>
     </SafeAreaView>
   );

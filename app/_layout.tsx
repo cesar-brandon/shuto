@@ -8,10 +8,9 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import { TamaguiProvider } from "tamagui";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import appConfig from "@/tamagui.config";
 import "expo-dev-client";
+import { Provider } from "@/components/Provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +34,7 @@ export default function RootLayout() {
   }
 
   return (
-    <TamaguiProvider config={appConfig} defaultTheme={colorScheme!}>
+    <Provider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -46,6 +45,6 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>
-    </TamaguiProvider>
+    </Provider>
   );
 }

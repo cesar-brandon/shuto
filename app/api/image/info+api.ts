@@ -1,4 +1,3 @@
-import { convertImageToBinary } from "@/lib/utils/image";
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";

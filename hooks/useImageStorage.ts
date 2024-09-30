@@ -13,7 +13,7 @@ const useImageStorage = () => {
     setIsPending(true);
     try {
       const storedImages = JSON.parse(
-        (await AsyncStorage.getItem("@images")) || "[]",
+        (await AsyncStorage.getItem("@images")) || "[]"
       );
 
       const newImage = {
@@ -26,7 +26,7 @@ const useImageStorage = () => {
       };
       await AsyncStorage.setItem(
         "@images",
-        JSON.stringify([...storedImages, newImage]),
+        JSON.stringify([...storedImages, newImage])
       );
       setImages((prevImages) => [...prevImages, newImage]);
       return true;
@@ -41,13 +41,16 @@ const useImageStorage = () => {
   const deleteImage = useCallback(async (id: string): Promise<void> => {
     setIsPending(true);
     try {
-      setImages((prevImages) =>
-        prevImages.filter((item: Photo) => item.id !== id),
-      );
-      await AsyncStorage.setItem(
-        "@images",
-        JSON.stringify(images.filter((item: Photo) => item.id !== id)),
-      );
+      setImages((prevImages) => {
+        const updatedImages = prevImages.filter(
+          (item: Photo) => item.id !== id
+        );
+        AsyncStorage.setItem(
+          "@images",
+          JSON.stringify(updatedImages.reverse())
+        );
+        return updatedImages;
+      });
     } catch (error) {
       Alert.alert("Error", "No se pudo eliminar la imagen");
     } finally {
