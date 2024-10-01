@@ -7,7 +7,7 @@
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "set TAMAGUI_DISABLE_NO_THEME_WARNING=1 && set NODE_OPTIONS=--max-old-space-size=4096 && expo start --web",
+    "web": "set NODE_OPTIONS=--max-old-space-size=4096 && expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
     "generate-themes": "tamagui generate-themes ./theme-builder.ts ./theme-output.ts",
